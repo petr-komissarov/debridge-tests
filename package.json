@@ -1,0 +1,28 @@
+{
+  "name": "debridge-tests",
+  "version": "1.0.0",
+  "description": "deBridge tests",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/petr-komissarov/debridge-tests.git"
+  },
+  "author": "Peter Komissarov <job-komissarov@yandex.ru>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/petr-komissarov/debridge-tests/issues"
+  },
+  "homepage": "https://github.com/petr-komissarov/debridge-tests#readme",
+  "keywords": [
+    "qa"
+  ],
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "ci": "bun ci --production",
+    "test": "bun test --concurrent"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typescript": "^5.9.3"
+  }
+}

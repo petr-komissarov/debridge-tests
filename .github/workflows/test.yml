@@ -1,0 +1,31 @@
+name: Test workflow
+on: [ push ]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v6
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun run ci
+
+      - name: Generate .env
+        run: |
+          echo "BASE_URL=${{ secrets.BASE_URL }}" >> .env
+          echo "MAX_RETRIES=${{ secrets.MAX_RETRIES }}" >> .env
+          echo "WALLET_ADDRESS=${{ secrets.WALLET_ADDRESS }}" >> .env
+
+      - name: Run tests
+        run: bun run test
+
+      - name: Archive artifacts
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-report
+          overwrite: true
+          path: ./junit-report.xml
+          retention-days: 7

@@ -1,0 +1,9 @@
+logLevel = "warn"
+telemetry = false
+
+[test]
+invalidOption = true
+root = "tests"
+
+[test.reporter]
+junit = "./junit-report.xml"
