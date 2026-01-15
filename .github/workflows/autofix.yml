@@ -1,0 +1,40 @@
+name: autofix.ci
+run-name: autofix
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  cancel-in-progress: false
+  group: ${{ github.workflow }}
+
+permissions:
+  contents: read
+
+jobs:
+  autofix:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v6
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun run ci:install
+
+      - name: Lint sources
+        run: bun run ci:lint
+
+      - name: Format sources
+        run: bun run ci:format
+
+      - name: Create commit
+        continue-on-error: true
+        uses: autofix-ci/action@v1
+        with:
+          commit-message: "autofix ci"

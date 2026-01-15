@@ -1,0 +1,41 @@
+name: test.ci
+run-name: test on ${{ inputs.environment }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment"
+        default: dev
+        required: true
+        type: choice
+        options:
+          - dev
+
+concurrency:
+  cancel-in-progress: false
+  group: ${{ github.workflow }}
+
+jobs:
+  test:
+    environment: ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v6
+
+      - name: Install bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun run ci:install:prod
+
+      - name: Run tests
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+          LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
+          TEST_RETRY: ${{ secrets.TEST_RETRY }}
+          TEST_TIMEOUT: ${{ secrets.TEST_TIMEOUT }}
+          WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
+        run: bun run ci:test

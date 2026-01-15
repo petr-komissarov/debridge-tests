@@ -1,0 +1,10 @@
+**/*.json
+**/.git
+**/.github
+**/.hg
+**/.prettierrc
+**/.svn
+**/allure-report
+**/allure-results
+**/node_modules
+coverage
